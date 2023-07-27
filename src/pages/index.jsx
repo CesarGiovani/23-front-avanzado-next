@@ -22,7 +22,7 @@ export default function Home(props) {
             Next Js SSR
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Consumo de API randomuser
+            Consumo de API randomuser prueba de vercel
           </p>
         </div>
         <ul
