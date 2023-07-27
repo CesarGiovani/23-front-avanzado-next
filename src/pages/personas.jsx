@@ -1,19 +1,17 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useRouter } from 'next/router'
 
-export default function Home(props) {
 
-  const [peoples, setPeoples] = useState([]);
-  const getInitialData = async () => {
-    const res = await fetch("https://randomuser.me/api/?results=6");
-    const { results } = await res.json();
-    setPeoples(results);
-    console.log("results", results);
-  };
+export const getServerSideProps = async () => {
+  const res = await fetch("https://randomuser.me/api/?results=6");
+  const { results } = await res.json();
+  return { props: { peoples: results } };
+};
 
-  useEffect(() => {
-    getInitialData();
-  }, []);
+const Personas = (props) => {
+    const router = useRouter();
+
+  const { peoples } = props;
   return (
     <div className="bg-white py-24 sm:py-32">
       <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
@@ -30,7 +28,7 @@ export default function Home(props) {
           className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2"
         >
           {peoples.map((person) => (
-            <li key={person.email}>
+            <li key={person.email} onClick={()=> router.push(`/user/${person.name.first}`)}>
               <div className="flex items-center gap-x-6">
                 <Image
                   className="h-16 w-16 rounded-full"
@@ -54,4 +52,6 @@ export default function Home(props) {
       </div>
     </div>
   );
-}
+};
+
+export default Personas;
